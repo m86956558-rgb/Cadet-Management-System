@@ -1,0 +1,412 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NattDev Cadet Management</title>
+<style>
+:root{
+  --bg:#080d18;--panel:#111a2b;--panel2:#172238;
+  --text:#edf3ff;--muted:#8fa1bd;--blue:#3985ff;
+  --green:#20c997;--yellow:#f5bd4f;--red:#ff6375;
+  --border:#263650;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);
+font-family:Arial,"Tahoma",sans-serif}
+header{padding:22px 18px;background:linear-gradient(120deg,#101e37,#173d70);
+border-bottom:1px solid var(--border)}
+.brand{font-size:12px;letter-spacing:2px;color:#8dbaff}
+header h1{font-size:23px;margin:8px 0}
+header p{font-size:12px;color:#b5c7e4;margin:0}
+.container{max-width:1100px;margin:auto;padding:16px}
+nav{display:flex;gap:8px;overflow-x:auto;padding:4px 0 14px}
+button{border:0;border-radius:9px;padding:11px 14px;
+font-weight:bold;cursor:pointer;font-size:13px}
+nav button{background:var(--panel);color:var(--muted);white-space:nowrap}
+nav button.active{background:var(--blue);color:white}
+.panel{background:var(--panel);border:1px solid var(--border);
+border-radius:13px;padding:16px;margin-bottom:14px}
+h2{font-size:17px;margin:0 0 14px}
+h3{font-size:14px;margin:0 0 10px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{background:var(--panel2);border:1px solid var(--border);
+border-radius:11px;padding:13px}
+.stat small{display:block;color:var(--muted);font-size:11px}
+.stat strong{display:block;font-size:25px;margin-top:8px}
+.blue{color:#70aaff}.green{color:var(--green)}
+.yellow{color:var(--yellow)}.red{color:var(--red)}
+input,select{width:100%;background:#0b1424;color:white;
+border:1px solid var(--border);border-radius:9px;padding:12px;
+margin:5px 0 12px;font-size:14px}
+label{font-size:12px;color:var(--muted)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.primary{background:var(--blue);color:white}
+.secondary{background:#263650;color:white}
+.danger{background:#572633;color:#ffb5bf}
+.success{background:#14513f;color:#a8f5dc}
+.warning{background:#59451c;color:#ffe1a0}
+.full{width:100%}
+.actions{display:flex;gap:6px;flex-wrap:wrap}
+.actions button{padding:8px 10px;font-size:11px}
+.item{display:flex;align-items:center;justify-content:space-between;
+gap:10px;padding:12px 0;border-bottom:1px solid var(--border)}
+.item:last-child{border:0}
+.name{font-size:13px;font-weight:bold}
+.sub{font-size:11px;color:var(--muted);margin-top:4px}
+.status{font-size:11px;padding:5px 8px;border-radius:20px;
+background:#263650;white-space:nowrap}
+.present{background:#14513f;color:#a8f5dc}
+.late{background:#59451c;color:#ffe1a0}
+.leave{background:#263d68;color:#b5d2ff}
+.absent{background:#572633;color:#ffb5bf}
+.hidden{display:none!important}
+.empty{text-align:center;color:var(--muted);padding:25px;font-size:13px}
+.progress{height:8px;background:#263650;border-radius:10px;overflow:hidden}
+.progress div{height:100%;background:var(--green);width:0}
+footer{text-align:center;color:var(--muted);font-size:10px;padding:25px}
+@media(min-width:700px){.stats{grid-template-columns:repeat(6,1fr)}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">NATTDEV • MANAGEMENT SYSTEM</div>
+  <h1>CADET MANAGEMENT</h1>
+  <p>ระบบบริหารจัดการนักเรียนนายร้อย | Version 4.0</p>
+</header>
+
+<div class="container">
+<nav>
+  <button class="active" onclick="showPage('dashboard',this)">หน้าหลัก</button>
+  <button onclick="showPage('attendance',this)">เช็กชื่อ</button>
+  <button onclick="showPage('roster',this)">รายชื่อนายร้อย</button>
+  <button onclick="showPage('history',this)">ประวัติ</button>
+  <button onclick="showPage('settings',this)">จัดการข้อมูล</button>
+</nav>
+
+<!-- DASHBOARD -->
+<section id="dashboard">
+  <div class="panel">
+    <h2>ภาพรวมระบบ</h2>
+    <label>วันที่ใช้งาน</label>
+    <input type="date" id="dashDate" onchange="render()">
+    <div class="stats">
+      <div class="stat"><small>นักเรียนนายร้อย</small><strong class="blue" id="total">0</strong></div>
+      <div class="stat"><small>มา</small><strong class="green" id="countPresent">0</strong></div>
+      <div class="stat"><small>สาย</small><strong class="yellow" id="countLate">0</strong></div>
+      <div class="stat"><small>ลา</small><strong class="blue" id="countLeave">0</strong></div>
+      <div class="stat"><small>ขาด</small><strong class="red" id="countAbsent">0</strong></div>
+      <div class="stat"><small>ยังไม่เช็ก</small><strong id="countPending">0</strong></div>
+    </div>
+  </div>
+  <div class="panel">
+    <h2>สรุปการเข้าแถว</h2>
+    <div class="progress"><div id="progressBar"></div></div>
+    <p class="sub" id="progressText">ยังไม่มีข้อมูล</p>
+  </div>
+  <div class="panel">
+    <h2>รายการล่าสุด</h2>
+    <div id="recentList"></div>
+  </div>
+</section>
+
+<!-- ATTENDANCE -->
+<section id="attendance" class="hidden">
+  <div class="panel">
+    <h2>ระบบเช็กชื่อนักเรียนนายร้อย</h2>
+    <label>เลือกวันที่</label>
+    <input type="date" id="attDate" onchange="renderAttendance()">
+    <input id="attSearch" placeholder="ค้นหาชื่อหรือเลขลำดับ..." oninput="renderAttendance()">
+    <div class="actions">
+      <button class="success" onclick="markAll('มา')">ทุกคนมา</button>
+      <button class="secondary" onclick="clearDay()">ล้างการเช็กชื่อวันนี้</button>
+    </div>
+  </div>
+  <div class="panel">
+    <div id="attendanceList"></div>
+  </div>
+</section>
+
+<!-- ROSTER -->
+<section id="roster" class="hidden">
+  <div class="panel">
+    <h2>จัดการรายชื่อนักเรียนนายร้อย</h2>
+    <input id="newName" placeholder="กรอกชื่อ-นามสกุลในเกม">
+    <button class="primary full" onclick="addCadet()">+ เพิ่มรายชื่อ</button>
+    <input id="rosterSearch" placeholder="ค้นหารายชื่อ..." oninput="renderRoster()">
+  </div>
+  <div class="panel"><div id="rosterList"></div></div>
+</section>
+
+<!-- HISTORY -->
+<section id="history" class="hidden">
+  <div class="panel">
+    <h2>ประวัติการเช็กชื่อ</h2>
+    <label>เลือกวันที่ต้องการดู</label>
+    <input type="date" id="historyDate" onchange="renderHistory()">
+    <div class="actions">
+      <button class="primary" onclick="exportCSV()">ดาวน์โหลด CSV</button>
+      <button class="secondary" onclick="window.print()">พิมพ์รายงาน</button>
+    </div>
+  </div>
+  <div class="panel"><div id="historyList"></div></div>
+</section>
+
+<!-- SETTINGS -->
+<section id="settings" class="hidden">
+  <div class="panel">
+    <h2>สำรองและกู้คืนข้อมูล</h2>
+    <p class="sub">ดาวน์โหลดข้อมูลทั้งหมดเก็บไว้ หรือเลือกไฟล์ JSON เพื่อกู้คืน</p>
+    <button class="primary full" onclick="backup()">ดาวน์โหลดข้อมูลสำรอง</button>
+    <label>กู้คืนจากไฟล์ JSON</label>
+    <input type="file" id="restoreFile" accept=".json">
+    <button class="success full" onclick="restore()">กู้คืนข้อมูล</button>
+  </div>
+  <div class="panel">
+    <h2>จัดการระบบ</h2>
+    <button class="danger full" onclick="resetAll()">รีเซ็ตข้อมูลทั้งหมด</button>
+    <p class="sub">คำเตือน: การรีเซ็ตจะลบรายชื่อและประวัติทั้งหมดออกจากเบราว์เซอร์นี้</p>
+  </div>
+  <div class="panel">
+    <h2>เกี่ยวกับระบบ</h2>
+    <p class="sub">NattDev Cadet Management System</p>
+    <p class="sub">Developed by NattDev</p>
+    <p class="sub">© 2026 NattDev. All Rights Reserved.</p>
+  </div>
+</section>
+
+<footer>NATTDEV CADET MANAGEMENT SYSTEM • VERSION 4.0</footer>
+</div>
+
+<script>
+const initialNames = [
+"Peter Faizal","JYRI JAEVON","Pun Fbi","Bob Baber",
+"Abram Davey","Cristiano Gungun","Model Beer","Jonny Reuben",
+"Korn Margarito","Wan Wanwan","Farisss Yes","Peter Chanavee",
+"Nat Fbi","Lamta Sixno","Jai Talmadge","Adolf Hitlel",
+"Devilz Serenity","Chinon Serenity","Bandit Crazy","Su Ju",
+"Kevin Serenity","First Serenity","Farito Serenity",
+"Jacobz Serenity","Iron Man","Ta Pxth","Buggy Serenity",
+"Sabalakai Jugkadue","Xxx Xx","YOD GR","Xxx Xx",
+"Phakk Hee","Hartman Cawthorne","Griffin Vargas",
+"Kailani Ajanae","Nay Zx","Ford Otho","Greenley Harsh",
+"Karn Allnew","Brain Ferdy","Adon Arnoldovski"
+];
+
+const KEY = "nattdev_cadet_v4";
+let db;
+
+function loadData(){
+  try{
+    const saved=localStorage.getItem(KEY);
+    db=saved?JSON.parse(saved):null;
+  }catch(e){db=null}
+  if(!db || !Array.isArray(db.cadets) || !db.records){
+    db={cadets:initialNames.map((name,i)=>({
+      id:"C"+(i+1),name
+    })),records:{}};
+    save();
+  }
+}
+function save(){
+  localStorage.setItem(KEY,JSON.stringify(db));
+}
+function today(){
+  const d=new Date();
+  return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+}
+function dateValue(id){
+  return document.getElementById(id).value || today();
+}
+function showPage(page,btn){
+  document.querySelectorAll("section").forEach(s=>s.classList.add("hidden"));
+  document.getElementById(page).classList.remove("hidden");
+  document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  render();
+}
+function record(date){
+  if(!db.records[date]) db.records[date]={};
+  return db.records[date];
+}
+function statusClass(s){
+  return {"มา":"present","สาย":"late","ลา":"leave","ขาด":"absent"}[s]||"";
+}
+function setStatus(id,status){
+  const date=dateValue("attDate");
+  record(date)[id]=status;
+  save();render();
+}
+function render(){
+  renderDashboard();
+  renderAttendance();
+  renderRoster();
+  renderHistory();
+}
+function renderDashboard(){
+  const date=dateValue("dashDate");
+  const r=record(date);
+  const counts={"มา":0,"สาย":0,"ลา":0,"ขาด":0};
+  Object.values(r).forEach(s=>{if(counts[s]!==undefined)counts[s]++});
+  const total=db.cadets.length;
+  const checked=Object.keys(r).length;
+  document.getElementById("total").textContent=total;
+  document.getElementById("countPresent").textContent=counts["มา"];
+  document.getElementById("countLate").textContent=counts["สาย"];
+  document.getElementById("countLeave").textContent=counts["ลา"];
+  document.getElementById("countAbsent").textContent=counts["ขาด"];
+  document.getElementById("countPending").textContent=Math.max(0,total-checked);
+  const percent=total?Math.round(checked/total*100):0;
+  document.getElementById("progressBar").style.width=percent+"%";
+  document.getElementById("progressText").textContent=
+    "เช็กชื่อแล้ว "+checked+" จาก "+total+" คน ("+percent+"%)";
+  const recent=Object.entries(r).slice(-5).reverse();
+  document.getElementById("recentList").innerHTML=recent.length?
+    recent.map(([id,s])=>{
+      const c=db.cadets.find(x=>x.id===id);
+      return `<div class="item"><span class="name">${esc(c?c.name:id)}</span>
+      <span class="status ${statusClass(s)}">${s}</span></div>`;
+    }).join(""):'<div class="empty">ยังไม่มีรายการเช็กชื่อ</div>';
+}
+function renderAttendance(){
+  const date=dateValue("attDate");
+  const r=record(date);
+  const q=(document.getElementById("attSearch").value||"").toLowerCase();
+  const list=db.cadets.filter((c,i)=>
+    (c.name+" "+(i+1)).toLowerCase().includes(q));
+  document.getElementById("attendanceList").innerHTML=list.length?
+  list.map(c=>{
+    const s=r[c.id]||"ยังไม่เช็ก";
+    return `<div class="item">
+      <div><div class="name">${db.cadets.indexOf(c)+1}. ${esc(c.name)}</div>
+      <div class="sub">${s}</div></div>
+      <div class="actions">
+        <button class="success" onclick="setStatus('${c.id}','มา')">มา</button>
+        <button class="warning" onclick="setStatus('${c.id}','สาย')">สาย</button>
+        <button class="secondary" onclick="setStatus('${c.id}','ลา')">ลา</button>
+        <button class="danger" onclick="setStatus('${c.id}','ขาด')">ขาด</button>
+      </div>
+    </div>`;
+  }).join(""):'<div class="empty">ไม่พบรายชื่อ</div>';
+}
+function markAll(status){
+  if(!confirm("ยืนยันตั้งสถานะทุกคนเป็น "+status+" ?"))return;
+  const r=record(dateValue("attDate"));
+  db.cadets.forEach(c=>r[c.id]=status);
+  save();render();
+}
+function clearDay(){
+  const date=dateValue("attDate");
+  if(!confirm("ล้างข้อมูลเช็กชื่อวันที่ "+date+" ใช่หรือไม่?"))return;
+  delete db.records[date];save();render();
+}
+function addCadet(){
+  const input=document.getElementById("newName");
+  const name=input.value.trim();
+  if(!name)return alert("กรุณากรอกชื่อ");
+  if(db.cadets.some(c=>c.name.toLowerCase()===name.toLowerCase()))
+    return alert("มีรายชื่อนี้อยู่แล้ว");
+  db.cadets.push({id:"C"+Date.now(),name});
+  input.value="";save();render();
+}
+function renderRoster(){
+  const q=(document.getElementById("rosterSearch").value||"").toLowerCase();
+  const list=db.cadets.filter((c,i)=>
+    (c.name+" "+(i+1)).toLowerCase().includes(q));
+  document.getElementById("rosterList").innerHTML=list.length?
+  list.map(c=>`<div class="item">
+    <div><div class="name">${db.cadets.indexOf(c)+1}. ${esc(c.name)}</div>
+    <div class="sub">รหัส ${esc(c.id)}</div></div>
+    <div class="actions">
+      <button class="secondary" onclick="editCadet('${c.id}')">แก้ไข</button>
+      <button class="danger" onclick="deleteCadet('${c.id}')">ลบ</button>
+    </div></div>`).join(""):'<div class="empty">ไม่พบรายชื่อ</div>';
+}
+function editCadet(id){
+  const c=db.cadets.find(x=>x.id===id);if(!c)return;
+  const name=prompt("แก้ไขชื่อ",c.name);
+  if(name===null)return;
+  const n=name.trim();if(!n)return alert("ชื่อห้ามว่าง");
+  if(db.cadets.some(x=>x.id!==id&&x.name.toLowerCase()===n.toLowerCase()))
+    return alert("ชื่อซ้ำกับรายชื่อเดิม");
+  c.name=n;save();render();
+}
+function deleteCadet(id){
+  const c=db.cadets.find(x=>x.id===id);if(!c)return;
+  if(!confirm("ยืนยันลบ "+c.name+" ?"))return;
+  db.cadets=db.cadets.filter(x=>x.id!==id);
+  Object.values(db.records).forEach(r=>delete r[id]);
+  save();render();
+}
+function renderHistory(){
+  const date=dateValue("historyDate");
+  const r=db.records[date]||{};
+  const list=db.cadets;
+  document.getElementById("historyList").innerHTML=list.length?
+  list.map((c,i)=>{
+    const s=r[c.id]||"ยังไม่เช็ก";
+    return `<div class="item">
+      <div><div class="name">${i+1}. ${esc(c.name)}</div>
+      <div class="sub">${date}</div></div>
+      <span class="status ${statusClass(s)}">${s}</span>
+    </div>`;
+  }).join(""):'<div class="empty">ไม่มีข้อมูล</div>';
+}
+function exportCSV(){
+  const date=dateValue("historyDate");
+  const r=db.records[date]||{};
+  const rows=[["ลำดับ","ชื่อ","สถานะ","วันที่"]];
+  db.cadets.forEach((c,i)=>rows.push([
+    i+1,c.name,r[c.id]||"ยังไม่เช็ก",date
+  ]));
+  const csv="\uFEFF"+rows.map(row=>row.map(v=>
+    '"'+String(v).replace(/"/g,'""')+'"').join(",")).join("\n");
+  const blob=new Blob([csv],{type:"text/csv;charset=utf-8"});
+  download(blob,"NattDev_Attendance_"+date+".csv");
+}
+function backup(){
+  const blob=new Blob([JSON.stringify(db,null,2)],{type:"application/json"});
+  download(blob,"NattDev_Backup_"+today()+".json");
+}
+function download(blob,name){
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;a.download=name;a.click();
+  URL.revokeObjectURL(url);
+}
+function restore(){
+  const file=document.getElementById("restoreFile").files[0];
+  if(!file)return alert("กรุณาเลือกไฟล์ JSON");
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const data=JSON.parse(reader.result);
+      if(!Array.isArray(data.cadets)||!data.records||
+         typeof data.records!=="object")throw new Error();
+      if(!confirm("ข้อมูลปัจจุบันจะถูกแทนที่ ยืนยันหรือไม่?"))return;
+      db=data;save();render();alert("กู้คืนข้อมูลสำเร็จ");
+    }catch(e){alert("ไฟล์ไม่ถูกต้องหรือไม่ใช่ไฟล์สำรองของระบบ")}
+  };
+  reader.readAsText(file);
+}
+function resetAll(){
+  if(!confirm("ต้องการลบรายชื่อและประวัติทั้งหมดใช่หรือไม่?"))return;
+  if(!confirm("ยืนยันอีกครั้ง การลบนี้ไม่สามารถย้อนกลับได้"))return;
+  db={cadets:[],records:{}};
+  save();render();
+}
+function esc(s){
+  return String(s).replace(/[&<>"']/g,ch=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[ch]));
+}
+loadData();
+document.getElementById("dashDate").value=today();
+document.getElementById("attDate").value=today();
+document.getElementById("historyDate").value=today();
+render();
+</script>
+</body>
+</html>
