@@ -3,185 +3,179 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NattDev Cadet Management</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1425">
+<title>NattDev Cadet Management V6</title>
 <style>
-:root{
-  --bg:#080d18;--panel:#111a2b;--panel2:#172238;
-  --text:#edf3ff;--muted:#8fa1bd;--blue:#3985ff;
-  --green:#20c997;--yellow:#f5bd4f;--red:#ff6375;
-  --border:#263650;
-}
+:root{--bg:#08111f;--panel:#111e32;--panel2:#1b2c45;--border:#2b405e;--text:#eef4ff;--muted:#9aabc3;--blue:#438bff;--green:#20c997;--yellow:#f3bd50;--red:#fa6677}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);
-font-family:Arial,"Tahoma",sans-serif}
-header{padding:22px 18px;background:linear-gradient(120deg,#101e37,#173d70);
-border-bottom:1px solid var(--border)}
-.brand{font-size:12px;letter-spacing:2px;color:#8dbaff}
-header h1{font-size:23px;margin:8px 0}
-header p{font-size:12px;color:#b5c7e4;margin:0}
-.container{max-width:1100px;margin:auto;padding:16px}
-nav{display:flex;gap:8px;overflow-x:auto;padding:4px 0 14px}
-button{border:0;border-radius:9px;padding:11px 14px;
-font-weight:bold;cursor:pointer;font-size:13px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Tahoma,sans-serif}
+header{padding:22px 17px;background:linear-gradient(120deg,#101d35,#17457c)}
+header h1{font-size:22px;margin:9px 0}
+header p,.muted{color:var(--muted);font-size:12px}
+.container{max-width:1100px;margin:auto;padding:14px}
+nav{display:flex;gap:7px;overflow-x:auto;padding:5px 0 14px}
+button{border:0;border-radius:9px;padding:11px 13px;font-weight:bold;font-size:12px;cursor:pointer}
 nav button{background:var(--panel);color:var(--muted);white-space:nowrap}
-nav button.active{background:var(--blue);color:white}
-.panel{background:var(--panel);border:1px solid var(--border);
-border-radius:13px;padding:16px;margin-bottom:14px}
+nav button.active,.primary{background:var(--blue);color:white}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:13px;padding:15px;margin-bottom:13px}
 h2{font-size:17px;margin:0 0 14px}
-h3{font-size:14px;margin:0 0 10px}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.stat{background:var(--panel2);border:1px solid var(--border);
-border-radius:11px;padding:13px}
-.stat small{display:block;color:var(--muted);font-size:11px}
-.stat strong{display:block;font-size:25px;margin-top:8px}
-.blue{color:#70aaff}.green{color:var(--green)}
-.yellow{color:var(--yellow)}.red{color:var(--red)}
-input,select{width:100%;background:#0b1424;color:white;
-border:1px solid var(--border);border-radius:9px;padding:12px;
-margin:5px 0 12px;font-size:14px}
+input,select{width:100%;padding:12px;margin:6px 0 12px;background:#0b1729;color:white;border:1px solid var(--border);border-radius:9px;font-size:14px}
 label{font-size:12px;color:var(--muted)}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.primary{background:var(--blue);color:white}
-.secondary{background:#263650;color:white}
-.danger{background:#572633;color:#ffb5bf}
-.success{background:#14513f;color:#a8f5dc}
-.warning{background:#59451c;color:#ffe1a0}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.stat{background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:13px}
+.stat small{display:block;color:var(--muted);font-size:11px}
+.stat strong{display:block;font-size:25px;margin-top:7px}
+.green{color:var(--green)}.yellow{color:var(--yellow)}.red{color:var(--red)}.blue{color:#80b4ff}
+.actions{display:flex;flex-wrap:wrap;gap:5px}
+.actions button{padding:8px 9px;font-size:11px}
+.success{background:#14513f;color:#b4f8df}.warning{background:#59451c;color:#ffe3a2}.danger{background:#572633;color:#ffc0c8}.secondary{background:#30435f;color:white}
 .full{width:100%}
-.actions{display:flex;gap:6px;flex-wrap:wrap}
-.actions button{padding:8px 10px;font-size:11px}
-.item{display:flex;align-items:center;justify-content:space-between;
-gap:10px;padding:12px 0;border-bottom:1px solid var(--border)}
+.item{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px 0;border-bottom:1px solid var(--border)}
 .item:last-child{border:0}
-.name{font-size:13px;font-weight:bold}
-.sub{font-size:11px;color:var(--muted);margin-top:4px}
-.status{font-size:11px;padding:5px 8px;border-radius:20px;
-background:#263650;white-space:nowrap}
-.present{background:#14513f;color:#a8f5dc}
-.late{background:#59451c;color:#ffe1a0}
-.leave{background:#263d68;color:#b5d2ff}
-.absent{background:#572633;color:#ffb5bf}
+.name{font-size:13px;font-weight:bold;overflow-wrap:anywhere}
+.sub{font-size:11px;color:var(--muted);margin-top:5px}
+.status{font-size:11px;padding:5px 8px;border-radius:20px;white-space:nowrap;background:#30435f}
+.present{background:#14513f;color:#b4f8df}.late{background:#59451c;color:#ffe3a2}.leave{background:#263d68;color:#b5d2ff}.absent{background:#572633;color:#ffc0c8}
 .hidden{display:none!important}
-.empty{text-align:center;color:var(--muted);padding:25px;font-size:13px}
-.progress{height:8px;background:#263650;border-radius:10px;overflow:hidden}
+.empty{text-align:center;padding:25px;color:var(--muted);font-size:13px}
+.progress{height:9px;background:#30435f;border-radius:20px;overflow:hidden}
 .progress div{height:100%;background:var(--green);width:0}
-footer{text-align:center;color:var(--muted);font-size:10px;padding:25px}
+#toast{position:fixed;top:15px;left:50%;transform:translate(-50%,-160%);width:calc(100% - 30px);max-width:390px;padding:15px;background:#172c48;color:white;border:1px solid var(--blue);border-radius:12px;box-shadow:0 8px 30px #0009;z-index:99999;transition:transform .3s}
+#toast.show{transform:translate(-50%,0)}
+#toastTitle{font-weight:bold;color:#8dbaff;margin-bottom:6px}
+#toastMessage{font-size:13px;line-height:1.6}
+#toastTime{font-size:11px;color:#a9bdd8;margin-top:5px}
+footer{text-align:center;padding:25px;color:var(--muted);font-size:10px}
 @media(min-width:700px){.stats{grid-template-columns:repeat(6,1fr)}}
+@media print{body{background:white;color:black}.no-print,nav,header{display:none!important}.panel{background:white;color:black;border:1px solid #ccc}}
 </style>
 </head>
 <body>
 
+<div id="toast">
+ <div id="toastTitle">แจ้งเตือน</div>
+ <div id="toastMessage"></div>
+ <div id="toastTime"></div>
+</div>
+
 <header>
-  <div class="brand">NATTDEV • MANAGEMENT SYSTEM</div>
-  <h1>CADET MANAGEMENT</h1>
-  <p>ระบบบริหารจัดการนักเรียนนายร้อย | Version 4.0</p>
+ <div style="font-size:11px;letter-spacing:2px;color:#a7caff">NATTDEV MANAGEMENT SYSTEM</div>
+ <h1>CADET MANAGEMENT</h1>
+ <p>ระบบบริหารจัดการนักเรียนนายร้อย V6.0</p>
 </header>
 
 <div class="container">
-<nav>
-  <button class="active" onclick="showPage('dashboard',this)">หน้าหลัก</button>
-  <button onclick="showPage('attendance',this)">เช็กชื่อ</button>
-  <button onclick="showPage('roster',this)">รายชื่อนายร้อย</button>
-  <button onclick="showPage('history',this)">ประวัติ</button>
-  <button onclick="showPage('settings',this)">จัดการข้อมูล</button>
+<nav class="no-print">
+ <button class="active" onclick="page('dashboard',this)">หน้าหลัก</button>
+ <button onclick="page('attendance',this)">เช็กชื่อ</button>
+ <button onclick="page('roster',this)">รายชื่อ</button>
+ <button onclick="page('daily',this)">สรุปรายวัน</button>
+ <button onclick="page('history',this)">ประวัติ</button>
+ <button onclick="page('settings',this)">ตั้งค่า</button>
 </nav>
 
-<!-- DASHBOARD -->
 <section id="dashboard">
-  <div class="panel">
-    <h2>ภาพรวมระบบ</h2>
-    <label>วันที่ใช้งาน</label>
-    <input type="date" id="dashDate" onchange="render()">
-    <div class="stats">
-      <div class="stat"><small>นักเรียนนายร้อย</small><strong class="blue" id="total">0</strong></div>
-      <div class="stat"><small>มา</small><strong class="green" id="countPresent">0</strong></div>
-      <div class="stat"><small>สาย</small><strong class="yellow" id="countLate">0</strong></div>
-      <div class="stat"><small>ลา</small><strong class="blue" id="countLeave">0</strong></div>
-      <div class="stat"><small>ขาด</small><strong class="red" id="countAbsent">0</strong></div>
-      <div class="stat"><small>ยังไม่เช็ก</small><strong id="countPending">0</strong></div>
-    </div>
+ <div class="panel">
+  <h2>ภาพรวมระบบ</h2>
+  <label>เลือกวันที่</label>
+  <input type="date" id="dashDate" onchange="render()">
+  <div class="stats">
+   <div class="stat"><small>ทั้งหมด</small><strong class="blue" id="total">0</strong></div>
+   <div class="stat"><small>มา</small><strong class="green" id="nPresent">0</strong></div>
+   <div class="stat"><small>สาย</small><strong class="yellow" id="nLate">0</strong></div>
+   <div class="stat"><small>ลา</small><strong class="blue" id="nLeave">0</strong></div>
+   <div class="stat"><small>ขาด</small><strong class="red" id="nAbsent">0</strong></div>
+   <div class="stat"><small>ยังไม่เช็ก</small><strong id="nPending">0</strong></div>
   </div>
-  <div class="panel">
-    <h2>สรุปการเข้าแถว</h2>
-    <div class="progress"><div id="progressBar"></div></div>
-    <p class="sub" id="progressText">ยังไม่มีข้อมูล</p>
-  </div>
-  <div class="panel">
-    <h2>รายการล่าสุด</h2>
-    <div id="recentList"></div>
-  </div>
+ </div>
+ <div class="panel">
+  <h2>ความคืบหน้าการเช็กชื่อ</h2>
+  <div class="progress"><div id="bar"></div></div>
+  <p class="sub" id="progressText"></p>
+ </div>
+ <div class="panel"><h2>รายการล่าสุด</h2><div id="recent"></div></div>
 </section>
 
-<!-- ATTENDANCE -->
 <section id="attendance" class="hidden">
-  <div class="panel">
-    <h2>ระบบเช็กชื่อนักเรียนนายร้อย</h2>
-    <label>เลือกวันที่</label>
-    <input type="date" id="attDate" onchange="renderAttendance()">
-    <input id="attSearch" placeholder="ค้นหาชื่อหรือเลขลำดับ..." oninput="renderAttendance()">
-    <div class="actions">
-      <button class="success" onclick="markAll('มา')">ทุกคนมา</button>
-      <button class="secondary" onclick="clearDay()">ล้างการเช็กชื่อวันนี้</button>
-    </div>
+ <div class="panel">
+  <h2>เช็กชื่อนักเรียนนายร้อย</h2>
+  <label>วันที่เช็กชื่อ</label>
+  <input type="date" id="attDate" onchange="render()">
+  <input id="attSearch" placeholder="ค้นหาชื่อ..." oninput="renderAttendance()">
+  <div class="actions">
+   <button class="success" onclick="markAll('มา')">ทุกคนมา</button>
+   <button class="secondary" onclick="clearDay()">ล้างวันนี้</button>
   </div>
-  <div class="panel">
-    <div id="attendanceList"></div>
-  </div>
+ </div>
+ <div class="panel"><div id="attList"></div></div>
 </section>
 
-<!-- ROSTER -->
 <section id="roster" class="hidden">
-  <div class="panel">
-    <h2>จัดการรายชื่อนักเรียนนายร้อย</h2>
-    <input id="newName" placeholder="กรอกชื่อ-นามสกุลในเกม">
-    <button class="primary full" onclick="addCadet()">+ เพิ่มรายชื่อ</button>
-    <input id="rosterSearch" placeholder="ค้นหารายชื่อ..." oninput="renderRoster()">
-  </div>
-  <div class="panel"><div id="rosterList"></div></div>
+ <div class="panel">
+  <h2>จัดการรายชื่อ</h2>
+  <input id="newName" placeholder="กรอกชื่อในเกม">
+  <button class="primary full" onclick="addCadet()">+ เพิ่มรายชื่อ</button>
+  <input id="rosterSearch" placeholder="ค้นหารายชื่อ..." oninput="renderRoster()">
+ </div>
+ <div class="panel"><div id="rosterList"></div></div>
 </section>
 
-<!-- HISTORY -->
+<section id="daily" class="hidden">
+ <div class="panel">
+  <h2>สรุปรายงานประจำวัน</h2>
+  <label>เลือกวันที่ต้องการสรุป</label>
+  <input type="date" id="reportDate" onchange="renderDaily()">
+  <div class="actions">
+   <button class="primary" onclick="renderDaily()">ดูรายงาน</button>
+   <button class="success" onclick="copyReport()">คัดลอกรายงาน</button>
+   <button class="secondary" onclick="window.print()">พิมพ์รายงาน</button>
+  </div>
+  <button class="primary full" onclick="exportCSV()">ดาวน์โหลด CSV</button>
+ </div>
+ <div class="panel"><div id="dailyContent"></div></div>
+</section>
+
 <section id="history" class="hidden">
-  <div class="panel">
-    <h2>ประวัติการเช็กชื่อ</h2>
-    <label>เลือกวันที่ต้องการดู</label>
-    <input type="date" id="historyDate" onchange="renderHistory()">
-    <div class="actions">
-      <button class="primary" onclick="exportCSV()">ดาวน์โหลด CSV</button>
-      <button class="secondary" onclick="window.print()">พิมพ์รายงาน</button>
-    </div>
-  </div>
-  <div class="panel"><div id="historyList"></div></div>
+ <div class="panel">
+  <h2>ประวัติการเช็กชื่อ</h2>
+  <label>เลือกวันที่</label>
+  <input type="date" id="historyDate" onchange="renderHistory()">
+ </div>
+ <div class="panel"><div id="historyContent"></div></div>
 </section>
 
-<!-- SETTINGS -->
 <section id="settings" class="hidden">
-  <div class="panel">
-    <h2>สำรองและกู้คืนข้อมูล</h2>
-    <p class="sub">ดาวน์โหลดข้อมูลทั้งหมดเก็บไว้ หรือเลือกไฟล์ JSON เพื่อกู้คืน</p>
-    <button class="primary full" onclick="backup()">ดาวน์โหลดข้อมูลสำรอง</button>
-    <label>กู้คืนจากไฟล์ JSON</label>
-    <input type="file" id="restoreFile" accept=".json">
-    <button class="success full" onclick="restore()">กู้คืนข้อมูล</button>
-  </div>
-  <div class="panel">
-    <h2>จัดการระบบ</h2>
-    <button class="danger full" onclick="resetAll()">รีเซ็ตข้อมูลทั้งหมด</button>
-    <p class="sub">คำเตือน: การรีเซ็ตจะลบรายชื่อและประวัติทั้งหมดออกจากเบราว์เซอร์นี้</p>
-  </div>
-  <div class="panel">
-    <h2>เกี่ยวกับระบบ</h2>
-    <p class="sub">NattDev Cadet Management System</p>
-    <p class="sub">Developed by NattDev</p>
-    <p class="sub">© 2026 NattDev. All Rights Reserved.</p>
-  </div>
+ <div class="panel">
+  <h2>ตั้งค่าการแจ้งเตือน</h2>
+  <label><input type="checkbox" id="soundEnabled" checked style="width:auto"> เปิดเสียงแจ้งเตือน</label>
+  <button class="secondary full" onclick="notify('ทดสอบสำเร็จ','ระบบแจ้งเตือนพร้อมใช้งาน')">ทดสอบแจ้งเตือน</button>
+ </div>
+ <div class="panel">
+  <h2>สำรองข้อมูล</h2>
+  <button class="primary full" onclick="backup()">ดาวน์โหลด JSON</button>
+  <label>เลือกไฟล์กู้คืน</label>
+  <input type="file" id="restoreFile" accept=".json">
+  <button class="success full" onclick="restore()">กู้คืนข้อมูล</button>
+ </div>
+ <div class="panel">
+  <h2>จัดการระบบ</h2>
+  <button class="danger full" onclick="resetAll()">รีเซ็ตข้อมูลทั้งหมด</button>
+  <p class="sub">ข้อมูลจะถูกลบออกจากเบราว์เซอร์นี้</p>
+ </div>
+ <div class="panel">
+  <h2>เกี่ยวกับระบบ</h2>
+  <p class="sub">NattDev Cadet Management System V6.0</p>
+  <p class="sub">© 2026 NattDev. All Rights Reserved.</p>
+ </div>
 </section>
 
-<footer>NATTDEV CADET MANAGEMENT SYSTEM • VERSION 4.0</footer>
+<footer>NATTDEV CADET MANAGEMENT SYSTEM</footer>
 </div>
 
 <script>
-const initialNames = [
+const KEY="NATTDEV_CADET_V6";
+const names=[
 "Peter Faizal","JYRI JAEVON","Pun Fbi","Bob Baber",
 "Abram Davey","Cristiano Gungun","Model Beer","Jonny Reuben",
 "Korn Margarito","Wan Wanwan","Farisss Yes","Peter Chanavee",
@@ -195,217 +189,253 @@ const initialNames = [
 "Karn Allnew","Brain Ferdy","Adon Arnoldovski"
 ];
 
-const KEY = "nattdev_cadet_v4";
 let db;
 
-function loadData(){
-  try{
-    const saved=localStorage.getItem(KEY);
-    db=saved?JSON.parse(saved):null;
-  }catch(e){db=null}
-  if(!db || !Array.isArray(db.cadets) || !db.records){
-    db={cadets:initialNames.map((name,i)=>({
-      id:"C"+(i+1),name
-    })),records:{}};
-    save();
-  }
-}
-function save(){
-  localStorage.setItem(KEY,JSON.stringify(db));
-}
 function today(){
-  const d=new Date();
-  return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+ const d=new Date();
+ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
 }
-function dateValue(id){
-  return document.getElementById(id).value || today();
+function load(){
+ try{db=JSON.parse(localStorage.getItem(KEY))}catch(e){db=null}
+ if(!db||!Array.isArray(db.cadets)||!db.records){
+  db={cadets:names.map((name,i)=>({id:"C"+(i+1),name})),records:{}};
+  save();
+ }
 }
-function showPage(page,btn){
-  document.querySelectorAll("section").forEach(s=>s.classList.add("hidden"));
-  document.getElementById(page).classList.remove("hidden");
-  document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
-  btn.classList.add("active");
-  render();
+function save(){localStorage.setItem(KEY,JSON.stringify(db))}
+function val(id){return document.getElementById(id).value||today()}
+function rec(date){return db.records[date]||(db.records[date]={})}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function cls(s){return {"มา":"present","สาย":"late","ลา":"leave","ขาด":"absent"}[s]||""}
+
+function notify(title,message){
+ document.getElementById("toastTitle").textContent=title;
+ document.getElementById("toastMessage").textContent=message;
+ document.getElementById("toastTime").textContent=
+ "เวลา "+new Date().toLocaleTimeString("th-TH");
+ const t=document.getElementById("toast");
+ t.classList.add("show");
+ if(document.getElementById("soundEnabled")?.checked!==false){
+  try{
+   const C=window.AudioContext||window.webkitAudioContext;
+   if(C){
+    const a=new C(),o=a.createOscillator(),g=a.createGain();
+    o.connect(g);g.connect(a.destination);
+    o.frequency.value=850;g.gain.value=.07;
+    o.start();o.stop(a.currentTime+.13);
+    o.onended=()=>a.close();
+   }
+  }catch(e){}
+ }
+ clearTimeout(window.toastTimer);
+ window.toastTimer=setTimeout(()=>t.classList.remove("show"),3500);
 }
-function record(date){
-  if(!db.records[date]) db.records[date]={};
-  return db.records[date];
+
+function page(id,btn){
+ document.querySelectorAll("section").forEach(s=>s.classList.add("hidden"));
+ document.getElementById(id).classList.remove("hidden");
+ document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
+ btn.classList.add("active");
+ render();
 }
-function statusClass(s){
-  return {"มา":"present","สาย":"late","ลา":"leave","ขาด":"absent"}[s]||"";
-}
-function setStatus(id,status){
-  const date=dateValue("attDate");
-  record(date)[id]=status;
-  save();render();
-}
+
 function render(){
-  renderDashboard();
-  renderAttendance();
-  renderRoster();
-  renderHistory();
+ dashboard();
+ renderAttendance();
+ renderRoster();
+ renderDaily();
+ renderHistory();
 }
-function renderDashboard(){
-  const date=dateValue("dashDate");
-  const r=record(date);
-  const counts={"มา":0,"สาย":0,"ลา":0,"ขาด":0};
-  Object.values(r).forEach(s=>{if(counts[s]!==undefined)counts[s]++});
-  const total=db.cadets.length;
-  const checked=Object.keys(r).length;
-  document.getElementById("total").textContent=total;
-  document.getElementById("countPresent").textContent=counts["มา"];
-  document.getElementById("countLate").textContent=counts["สาย"];
-  document.getElementById("countLeave").textContent=counts["ลา"];
-  document.getElementById("countAbsent").textContent=counts["ขาด"];
-  document.getElementById("countPending").textContent=Math.max(0,total-checked);
-  const percent=total?Math.round(checked/total*100):0;
-  document.getElementById("progressBar").style.width=percent+"%";
-  document.getElementById("progressText").textContent=
-    "เช็กชื่อแล้ว "+checked+" จาก "+total+" คน ("+percent+"%)";
-  const recent=Object.entries(r).slice(-5).reverse();
-  document.getElementById("recentList").innerHTML=recent.length?
-    recent.map(([id,s])=>{
-      const c=db.cadets.find(x=>x.id===id);
-      return `<div class="item"><span class="name">${esc(c?c.name:id)}</span>
-      <span class="status ${statusClass(s)}">${s}</span></div>`;
-    }).join(""):'<div class="empty">ยังไม่มีรายการเช็กชื่อ</div>';
+
+function dashboard(){
+ const date=val("dashDate"),r=db.records[date]||{};
+ const c={"มา":0,"สาย":0,"ลา":0,"ขาด":0};
+ db.cadets.forEach(x=>{if(c[r[x.id]]!==undefined)c[r[x.id]]++});
+ const checked=Object.keys(r).filter(id=>db.cadets.some(x=>x.id===id)).length;
+ const total=db.cadets.length;
+ document.getElementById("total").textContent=total;
+ document.getElementById("nPresent").textContent=c["มา"];
+ document.getElementById("nLate").textContent=c["สาย"];
+ document.getElementById("nLeave").textContent=c["ลา"];
+ document.getElementById("nAbsent").textContent=c["ขาด"];
+ document.getElementById("nPending").textContent=total-checked;
+ const p=total?Math.round(checked/total*100):0;
+ document.getElementById("bar").style.width=p+"%";
+ document.getElementById("progressText").textContent="เช็กแล้ว "+checked+"/"+total+" คน ("+p+"%)";
+ const recent=db.cadets.filter(x=>r[x.id]).slice(-5).reverse();
+ document.getElementById("recent").innerHTML=recent.length?recent.map(x=>`
+ <div class="item"><span class="name">${esc(x.name)}</span><span class="status ${cls(r[x.id])}">${r[x.id]}</span></div>`).join(""):'<div class="empty">ยังไม่มีรายการ</div>';
 }
+
 function renderAttendance(){
-  const date=dateValue("attDate");
-  const r=record(date);
-  const q=(document.getElementById("attSearch").value||"").toLowerCase();
-  const list=db.cadets.filter((c,i)=>
-    (c.name+" "+(i+1)).toLowerCase().includes(q));
-  document.getElementById("attendanceList").innerHTML=list.length?
-  list.map(c=>{
-    const s=r[c.id]||"ยังไม่เช็ก";
-    return `<div class="item">
-      <div><div class="name">${db.cadets.indexOf(c)+1}. ${esc(c.name)}</div>
-      <div class="sub">${s}</div></div>
-      <div class="actions">
-        <button class="success" onclick="setStatus('${c.id}','มา')">มา</button>
-        <button class="warning" onclick="setStatus('${c.id}','สาย')">สาย</button>
-        <button class="secondary" onclick="setStatus('${c.id}','ลา')">ลา</button>
-        <button class="danger" onclick="setStatus('${c.id}','ขาด')">ขาด</button>
-      </div>
-    </div>`;
-  }).join(""):'<div class="empty">ไม่พบรายชื่อ</div>';
+ const date=val("attDate"),r=db.records[date]||{};
+ const q=(document.getElementById("attSearch").value||"").toLowerCase();
+ const list=db.cadets.filter((x,i)=>(x.name+" "+(i+1)).toLowerCase().includes(q));
+ document.getElementById("attList").innerHTML=list.length?list.map(x=>{
+ const s=r[x.id]||"ยังไม่เช็ก";
+ return `<div class="item">
+ <div style="min-width:0"><div class="name">${db.cadets.indexOf(x)+1}. ${esc(x.name)}</div><div class="sub">สถานะ: ${s}</div></div>
+ <div class="actions">
+ <button class="success" onclick="setStatus('${x.id}','มา')">มา</button>
+ <button class="warning" onclick="setStatus('${x.id}','สาย')">สาย</button>
+ <button class="secondary" onclick="setStatus('${x.id}','ลา')">ลา</button>
+ <button class="danger" onclick="setStatus('${x.id}','ขาด')">ขาด</button>
+ </div></div>`;
+ }).join(""):'<div class="empty">ไม่พบรายชื่อ</div>';
 }
+
+function setStatus(id,status){
+ const date=val("attDate"),c=db.cadets.find(x=>x.id===id);
+ if(!c)return;
+ const old=(db.records[date]||{})[id];
+ rec(date)[id]=status;
+ save();render();
+ notify("บันทึกเช็กชื่อสำเร็จ",c.name+" : "+(old?"เปลี่ยนจาก "+old+" เป็น ":"สถานะ ")+status);
+}
+
 function markAll(status){
-  if(!confirm("ยืนยันตั้งสถานะทุกคนเป็น "+status+" ?"))return;
-  const r=record(dateValue("attDate"));
-  db.cadets.forEach(c=>r[c.id]=status);
-  save();render();
+ if(!confirm("ยืนยันตั้งทุกคนเป็น "+status+"?"))return;
+ const r=rec(val("attDate"));
+ db.cadets.forEach(c=>r[c.id]=status);
+ save();render();
+ notify("เช็กชื่อกลุ่มสำเร็จ","ตั้งสถานะ "+db.cadets.length+" คน เป็น "+status);
 }
+
 function clearDay(){
-  const date=dateValue("attDate");
-  if(!confirm("ล้างข้อมูลเช็กชื่อวันที่ "+date+" ใช่หรือไม่?"))return;
-  delete db.records[date];save();render();
+ const d=val("attDate");
+ if(!confirm("ล้างข้อมูลวันที่ "+d+"?"))return;
+ delete db.records[d];save();render();
+ notify("ล้างข้อมูลสำเร็จ","ล้างรายการเช็กชื่อวันที่ "+d);
 }
+
 function addCadet(){
-  const input=document.getElementById("newName");
-  const name=input.value.trim();
-  if(!name)return alert("กรุณากรอกชื่อ");
-  if(db.cadets.some(c=>c.name.toLowerCase()===name.toLowerCase()))
-    return alert("มีรายชื่อนี้อยู่แล้ว");
-  db.cadets.push({id:"C"+Date.now(),name});
-  input.value="";save();render();
+ const input=document.getElementById("newName"),name=input.value.trim();
+ if(!name)return notify("เพิ่มไม่ได้","กรุณากรอกชื่อ");
+ if(db.cadets.some(x=>x.name.toLowerCase()===name.toLowerCase()))return notify("ชื่อซ้ำ","มีรายชื่อนี้อยู่แล้ว");
+ db.cadets.push({id:"C"+Date.now(),name});
+ input.value="";save();render();
+ notify("เพิ่มรายชื่อสำเร็จ",name);
 }
+
 function renderRoster(){
-  const q=(document.getElementById("rosterSearch").value||"").toLowerCase();
-  const list=db.cadets.filter((c,i)=>
-    (c.name+" "+(i+1)).toLowerCase().includes(q));
-  document.getElementById("rosterList").innerHTML=list.length?
-  list.map(c=>`<div class="item">
-    <div><div class="name">${db.cadets.indexOf(c)+1}. ${esc(c.name)}</div>
-    <div class="sub">รหัส ${esc(c.id)}</div></div>
-    <div class="actions">
-      <button class="secondary" onclick="editCadet('${c.id}')">แก้ไข</button>
-      <button class="danger" onclick="deleteCadet('${c.id}')">ลบ</button>
-    </div></div>`).join(""):'<div class="empty">ไม่พบรายชื่อ</div>';
+ const q=(document.getElementById("rosterSearch").value||"").toLowerCase();
+ const list=db.cadets.filter((x,i)=>(x.name+" "+(i+1)).toLowerCase().includes(q));
+ document.getElementById("rosterList").innerHTML=list.length?list.map(x=>`
+ <div class="item"><div><div class="name">${db.cadets.indexOf(x)+1}. ${esc(x.name)}</div><div class="sub">${esc(x.id)}</div></div>
+ <div class="actions"><button class="secondary" onclick="editCadet('${x.id}')">แก้ไข</button><button class="danger" onclick="deleteCadet('${x.id}')">ลบ</button></div></div>`).join(""):'<div class="empty">ไม่มีรายชื่อ</div>';
 }
+
 function editCadet(id){
-  const c=db.cadets.find(x=>x.id===id);if(!c)return;
-  const name=prompt("แก้ไขชื่อ",c.name);
-  if(name===null)return;
-  const n=name.trim();if(!n)return alert("ชื่อห้ามว่าง");
-  if(db.cadets.some(x=>x.id!==id&&x.name.toLowerCase()===n.toLowerCase()))
-    return alert("ชื่อซ้ำกับรายชื่อเดิม");
-  c.name=n;save();render();
+ const c=db.cadets.find(x=>x.id===id);if(!c)return;
+ const old=c.name,n=prompt("แก้ไขชื่อ",old);
+ if(n===null)return;
+ const name=n.trim();
+ if(!name)return notify("แก้ไขไม่ได้","ชื่อห้ามว่าง");
+ if(db.cadets.some(x=>x.id!==id&&x.name.toLowerCase()===name.toLowerCase()))return notify("แก้ไขไม่ได้","ชื่อนี้มีแล้ว");
+ c.name=name;save();render();notify("แก้ไขรายชื่อสำเร็จ",old+" เป็น "+name);
 }
+
 function deleteCadet(id){
-  const c=db.cadets.find(x=>x.id===id);if(!c)return;
-  if(!confirm("ยืนยันลบ "+c.name+" ?"))return;
-  db.cadets=db.cadets.filter(x=>x.id!==id);
-  Object.values(db.records).forEach(r=>delete r[id]);
-  save();render();
+ const c=db.cadets.find(x=>x.id===id);if(!c)return;
+ if(!confirm("ยืนยันลบ "+c.name+"?"))return;
+ db.cadets=db.cadets.filter(x=>x.id!==id);
+ Object.values(db.records).forEach(r=>delete r[id]);
+ save();render();notify("ลบรายชื่อสำเร็จ",c.name);
 }
+
+function groupsFor(date){
+ const r=db.records[date]||{};
+ const g={"มา":[],"สาย":[],"ลา":[],"ขาด":[],"ยังไม่เช็ก":[]};
+ db.cadets.forEach(c=>g[r[c.id]||"ยังไม่เช็ก"].push(c.name));
+ return g;
+}
+
+function renderDaily(){
+ const el=document.getElementById("dailyContent");
+ if(!el)return;
+ const date=val("reportDate"),g=groupsFor(date);
+ const checked=db.cadets.length-g["ยังไม่เช็ก"].length;
+ const percent=db.cadets.length?Math.round(checked/db.cadets.length*100):0;
+ let html=`<h2>รายงานประจำวันที่ ${date}</h2>
+ <div class="stats">
+ ${Object.entries(g).map(([s,a])=>`<div class="stat"><small>${s}</small><strong>${a.length}</strong></div>`).join("")}
+ </div>
+ <p class="sub">ผู้ถูกเช็ก ${checked}/${db.cadets.length} คน | ${percent}%</p>`;
+ Object.entries(g).forEach(([s,a])=>{
+  html+=`<h3 style="margin-top:20px">${s} (${a.length} คน)</h3>`;
+  html+=a.length?a.map((n,i)=>`<div class="item"><span class="name">${i+1}. ${esc(n)}</span><span class="status ${cls(s)}">${s}</span></div>`).join(""):'<div class="empty">ไม่มีรายชื่อ</div>';
+ });
+ el.innerHTML=html;
+}
+
+function copyReport(){
+ const date=val("reportDate"),g=groupsFor(date);
+ let text="รายงานเช็กชื่อนักเรียนนายร้อย\nวันที่ "+date+"\nทั้งหมด "+db.cadets.length+" นาย\n\n";
+ Object.entries(g).forEach(([s,a])=>{
+  text+=s+" ("+a.length+" คน)\n";
+  a.forEach((n,i)=>text+=(i+1)+". "+n+"\n");
+  text+="\n";
+ });
+ if(navigator.clipboard?.writeText){
+  navigator.clipboard.writeText(text).then(()=>notify("คัดลอกสำเร็จ","นำรายงานไปส่งใน Discord ได้แล้ว")).catch(()=>fallbackCopy(text));
+ }else fallbackCopy(text);
+}
+function fallbackCopy(text){
+ const t=document.createElement("textarea");t.value=text;document.body.appendChild(t);t.select();document.execCommand("copy");t.remove();notify("คัดลอกสำเร็จ","รายงานพร้อมใช้งาน");
+}
+
 function renderHistory(){
-  const date=dateValue("historyDate");
-  const r=db.records[date]||{};
-  const list=db.cadets;
-  document.getElementById("historyList").innerHTML=list.length?
-  list.map((c,i)=>{
-    const s=r[c.id]||"ยังไม่เช็ก";
-    return `<div class="item">
-      <div><div class="name">${i+1}. ${esc(c.name)}</div>
-      <div class="sub">${date}</div></div>
-      <span class="status ${statusClass(s)}">${s}</span>
-    </div>`;
-  }).join(""):'<div class="empty">ไม่มีข้อมูล</div>';
+ const el=document.getElementById("historyContent");if(!el)return;
+ const date=val("historyDate"),g=groupsFor(date);
+ el.innerHTML=Object.entries(g).map(([s,a])=>`
+ <h3>${s} (${a.length})</h3>${a.length?a.map((n,i)=>`<div class="item"><span class="name">${i+1}. ${esc(n)}</span></div>`).join(""):'<div class="empty">ไม่มีรายชื่อ</div>'}
+ `).join("");
 }
+
 function exportCSV(){
-  const date=dateValue("historyDate");
+ const date=val("reportDate"),g=groupsFor(date);
+ const rows=[["ลำดับ","ชื่อ","สถานะ","วันที่"]];
+ db.cadets.forEach((c,i)=>{
   const r=db.records[date]||{};
-  const rows=[["ลำดับ","ชื่อ","สถานะ","วันที่"]];
-  db.cadets.forEach((c,i)=>rows.push([
-    i+1,c.name,r[c.id]||"ยังไม่เช็ก",date
-  ]));
-  const csv="\uFEFF"+rows.map(row=>row.map(v=>
-    '"'+String(v).replace(/"/g,'""')+'"').join(",")).join("\n");
-  const blob=new Blob([csv],{type:"text/csv;charset=utf-8"});
-  download(blob,"NattDev_Attendance_"+date+".csv");
+  rows.push([i+1,c.name,r[c.id]||"ยังไม่เช็ก",date]);
+ });
+ const csv="\uFEFF"+rows.map(row=>row.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(",")).join("\n");
+ download(new Blob([csv],{type:"text/csv;charset=utf-8"}),"NattDev_Report_"+date+".csv");
+ notify("ส่งออกรายงานสำเร็จ","ดาวน์โหลดรายงานวันที่ "+date);
+}
+
+function download(blob,name){
+ const url=URL.createObjectURL(blob),a=document.createElement("a");
+ a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 function backup(){
-  const blob=new Blob([JSON.stringify(db,null,2)],{type:"application/json"});
-  download(blob,"NattDev_Backup_"+today()+".json");
-}
-function download(blob,name){
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement("a");
-  a.href=url;a.download=name;a.click();
-  URL.revokeObjectURL(url);
+ download(new Blob([JSON.stringify(db,null,2)],{type:"application/json"}),"NattDev_Backup_"+today()+".json");
+ notify("สำรองข้อมูลสำเร็จ","ดาวน์โหลดไฟล์ JSON แล้ว");
 }
 function restore(){
-  const file=document.getElementById("restoreFile").files[0];
-  if(!file)return alert("กรุณาเลือกไฟล์ JSON");
-  const reader=new FileReader();
-  reader.onload=()=>{
-    try{
-      const data=JSON.parse(reader.result);
-      if(!Array.isArray(data.cadets)||!data.records||
-         typeof data.records!=="object")throw new Error();
-      if(!confirm("ข้อมูลปัจจุบันจะถูกแทนที่ ยืนยันหรือไม่?"))return;
-      db=data;save();render();alert("กู้คืนข้อมูลสำเร็จ");
-    }catch(e){alert("ไฟล์ไม่ถูกต้องหรือไม่ใช่ไฟล์สำรองของระบบ")}
-  };
-  reader.readAsText(file);
+ const f=document.getElementById("restoreFile").files[0];
+ if(!f)return notify("กู้คืนไม่ได้","กรุณาเลือกไฟล์ก่อน");
+ const reader=new FileReader();
+ reader.onload=()=>{
+  try{
+   const d=JSON.parse(reader.result);
+   if(!Array.isArray(d.cadets)||!d.records)throw Error();
+   if(!confirm("แทนที่ข้อมูลเดิมด้วยข้อมูลในไฟล์นี้?"))return;
+   db=d;save();render();notify("กู้คืนสำเร็จ","นำเข้าข้อมูลเรียบร้อย");
+  }catch(e){notify("ไฟล์ไม่ถูกต้อง","ไม่สามารถกู้คืนข้อมูลได้")}
+ };
+ reader.readAsText(f);
 }
 function resetAll(){
-  if(!confirm("ต้องการลบรายชื่อและประวัติทั้งหมดใช่หรือไม่?"))return;
-  if(!confirm("ยืนยันอีกครั้ง การลบนี้ไม่สามารถย้อนกลับได้"))return;
-  db={cadets:[],records:{}};
-  save();render();
+ if(!confirm("ลบรายชื่อและประวัติทั้งหมด?"))return;
+ if(!confirm("ยืนยันอีกครั้ง?"))return;
+ db={cadets:[],records:{}};save();render();
+ notify("รีเซ็ตสำเร็จ","ลบข้อมูลทั้งหมดแล้ว");
 }
-function esc(s){
-  return String(s).replace(/[&<>"']/g,ch=>({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  }[ch]));
-}
-loadData();
-document.getElementById("dashDate").value=today();
-document.getElementById("attDate").value=today();
-document.getElementById("historyDate").value=today();
+
+load();
+["dashDate","attDate","reportDate","historyDate"].forEach(id=>document.getElementById(id).value=today());
 render();
 </script>
 </body>
